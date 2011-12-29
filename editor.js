@@ -1,5 +1,5 @@
 /*
- * @name	: editor.js
+ * @name	: wjEDITOR
  * @author	: Wouter J
  * @version	: 0.8
  * @license	: Creative Commons Shara Alike - Unported
@@ -37,7 +37,7 @@
 		return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 	};
 		
-		editor = function( iEl, rEl, option ) {
+		wjEditor = function( iEl, rEl, option ) {
 
 			if( typeof rEl === 'object' && option === undefined ) {
 				if( rEl.nodeName ) {
@@ -76,7 +76,7 @@
 		};
 
 	// The editor object
-	editor.fn = editor.prototype = {
+	wjEditor.fn = editor.prototype = {
 		
 		// The constructor
 		init : function() {
@@ -285,7 +285,9 @@
 
 
 
-	window.editor = editor;
-	var $e = window.editor.fn;
+	// Save a local copy of the current wjEditor var
+	var _wjEditor = window.wjEditor;
+	window.wjEditor = wjEditor;
+	var $e = window.wjEditor.fn;
 
 })( window );
