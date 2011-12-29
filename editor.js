@@ -128,7 +128,7 @@
 					   rElem.innerHTML = iElem.value;
 				   }
 
-				   return editor.fn;
+				   return wjEditor.fn;
 			   },
 
 		/*
