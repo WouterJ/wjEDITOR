@@ -72,11 +72,11 @@
 			}
 
 			// Return new constructor
-			return new editor.fn.init();
+			return new wjEditor.fn.init();
 		};
 
 	// The editor object
-	wjEditor.fn = editor.prototype = {
+	wjEditor.fn = wjEditor.prototype = {
 		
 		// The constructor
 		init : function() {
