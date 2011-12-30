@@ -33,47 +33,47 @@
 	 * @author	: Kevin van Zonneveld @ http://phpjs.org/functions/nl2br
 	 */
 	nl2br = function( str, is_xhtml ) {
-		var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '' : '<br>';
+		var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br>' : '';
 		return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 	};
 		
-		wjEditor = function( iEl, rEl, option ) {
+	wjEditor = function( iEl, rEl, option ) {
 
-			if( typeof rEl === 'object' && option === undefined ) {
-				if( rEl.nodeName ) {
-					// Handle editor( inputEl, resultEl )
-					option = null;
-				}
-				else {
-					// Handle editor( inputEl, options )
-					option = rEl;
-					rEl = iEl;
-				}
-			}
-			else if( rEl === undefined ) {
-				// Handle editor( inputEl )
-				rEl = iEl;
+		if( typeof rEl === 'object' && option === undefined ) {
+			if( rEl.nodeName ) {
+				// Handle editor( inputEl, resultEl )
 				option = null;
 			}
-
-			// Set up the input element
-			iElem = (iEl.nodeName
-						? iEl
-						: document.getElementById(iEl));
-			// Set up the result element
-			rElem = (rEl.nodeName
-						? rEl
-						: document.getElementById(rEl));
-			// Set up the options
-			for( i in option ) {
-				if( i in options ) {
-					options[i] = option[i];
-				}
+			else {
+				// Handle editor( inputEl, options )
+				option = rEl;
+				rEl = iEl;
 			}
+		}
+		else if( rEl === undefined ) {
+			// Handle editor( inputEl )
+			rEl = iEl;
+			option = null;
+		}
 
-			// Return new constructor
-			return new wjEditor.fn.init();
-		};
+		// Set up the input element
+		iElem = (iEl.nodeName
+					? iEl
+					: document.getElementById(iEl));
+		// Set up the result element
+		rElem = (rEl.nodeName
+					? rEl
+					: document.getElementById(rEl));
+		// Set up the options
+		for( i in option ) {
+			if( i in options ) {
+				options[i] = option[i];
+			}
+		}
+
+		// Return new constructor
+		return new wjEditor.fn.init();
+	};
 
 	// The editor object
 	wjEditor.fn = wjEditor.prototype = {
@@ -92,36 +92,11 @@
 					   // Als shift is ingedrukt
 					   if( e.keyCode == 16 ) {
 						   txt = $e.getSelection(this);
-						   console.log(txt);
 					   }
-				   };
 
-				   iElem.onkeydown = function( e ) {
+					   // Make result live result
 					   $e.result( iElem.value );
-
-					   /* 
-					   // Als er een tag getypt wordt of als [ getypt wordt
-					   if( tag || e.keyCode == 219 ) {
-						   tag = true;
-						   $e.result( iElem.value );
-
-						   // Als er ] getypt wordt
-						   if( e.keyCode == 221 ) {
-							   // Als dit de eindtag is
-							   if( secondTag ) {
-								   tag = false;
-							   }
-							   // Als dit de begintag is
-							   else {
-								   secondTag = true;
-							   }
-						   }
-					   }
-					   if( e.keyCode == 46 ) {
-						   $e.result( iElem.value );
-					   }
-					   */
-				   }
+				   };
 
 				   // Zorg dat resultaat al zichtbaar is
 				   if( options.result ) {
@@ -174,7 +149,7 @@
 								rCode = '<' + tagResultName + '>?' + '</' + tagResultName + '>';
 							}
 							else {
-								rCode = null;
+								rCode = '<' + tagName + '>?' + '</' + tagName + '>';
 							}
 
 
@@ -214,7 +189,6 @@
 					var start = txt.start,
 						end = start + txt.text.length,
 						text = code.input.replace(/\?/g, txt.text);
-					console.log(txt);
 
 					  $e.createCode( start, end, text, code.input, code.result );
 				  },
@@ -243,44 +217,68 @@
 		 * @name	: Result
 		 * @author	: Wouter J
 		 */
-		result : (function() {
-				  
-					 var firstTime = false,
-						 fakeDiv = document.createElement('div');
+		result : function( str, fCode, tCode ) {
+					 // Kijken of options.result true is
+					 if( options.result ) {
+						 var tags = [];
 
-					  return function( str, fCode, tCode ) {
-						  if( !firstTime ) {
-							  firstTime = true;
-						  }
-						  else {
-							  str = fakeDiv.innerHTML;
-						  }
-						 // Kijken of options.result true is
-						 if( options.result ) {
-							 if( fCode === undefined ) {
-								 // Handle result( str )
-								 // Maak regexen om de eigen starttag om te zetten in html start tag
-								 // en idem voor eindtags
-								 var rgx1 = new RegExp('\\' + options.startTag, 'g'),
-									 rgx2 = new RegExp('\\' + options.endTag, 'g');
-								 // Zet de code in de result element
-								 fakeDiv.innerHTML = rElem.innerHTML = nl2br(str.replace(rgx1, '<').replace(rgx2, '>'));
+						 function addTag( text ) {
+							 t = text.substr(1, text.length-2);
+							 tags.push(t);
+							 return text;
+						 }
+
+						 str.replace(/\[[^\/](.*?)(?:=|\])/g, addTag);
+
+						 for( i=-1; tag = tags[++i]; ) {
+							 if( elem[tag] !== undefined ) {
+								 var info = elem[tag];
 							 }
-							 else
-							 {
-								 // Handle result( str, from, to )
-								 var from = escapeMetas(fCode).replace(/\?/g, '(.*?)'),
-									 rgx1 = new RegExp( from, 'g');
+							 else {
+								 continue;
+							 }
 
-								 function getResultCode( iets, txt ) {
-									 // txt bevat per replace de tekst
-									 return tCode.replace(/\?/g, txt);
-								 }
-								 fakeDiv.innerHTML = rElem.innerHTML = nl2br(str.replace(rgx1, getResultCode));
+							var from = escapeMetas(info.input).replace(/\?/g, '(.*?)'),
+								rgx = RegExp(from);
+
+							function getResultCode( h, text ) {
+								return info.result.replace(/\?/g, text);
+							}
+
+							 if( f === undefined ) {
+								rElem.innerHTML = nl2br(str.replace(rgx, getResultCode));
+								var f = true;
+							 }
+							 else {
+								 rElem.innerHTML = nl2br(rElem.innerHTML.replace(rgx, getResultCode));
 							 }
 						 }
+
+						 /*
+						 if( fCode === undefined ) {
+							 // Handle result( str )
+							 // Maak regexen om de eigen starttag om te zetten in html start tag
+							 // en idem voor eindtags
+							 var rgx1 = new RegExp('\\' + options.startTag, 'g'),
+								 rgx2 = new RegExp('\\' + options.endTag, 'g');
+							 // Zet de code in de result element
+							 fakeDiv.innerHTML = rElem.innerHTML = nl2br(str.replace(rgx1, '<').replace(rgx2, '>'));
+						 }
+						 else
+						 {
+							 // Handle result( str, from, to )
+							 var from = escapeMetas(fCode).replace(/\?/g, '(.*?)'),
+								 rgx1 = new RegExp( from, 'g');
+
+							 function getResultCode( iets, txt ) {
+								 // txt bevat per replace de tekst
+								 return tCode.replace(/\?/g, txt);
+							 }
+							 fakeDiv.innerHTML = rElem.innerHTML = nl2br(str.replace(rgx1, getResultCode));
+						 }
+						 */
 					 }
-				 })(),
+				 }
 	};
 
 
