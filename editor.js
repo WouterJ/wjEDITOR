@@ -1,7 +1,7 @@
 /*
  * @name	: wjEDITOR
  * @author	: Wouter J
- * @version	: 0.8
+ * @version	: 1.0b
  * @license	: Creative Commons Shara Alike - Unported
  *			  http://creativecommons.org/licenses/by-sa/3.0/
  */
@@ -33,8 +33,7 @@
 	 * @author	: Kevin van Zonneveld @ http://phpjs.org/functions/nl2br
 	 */
 	nl2br = function( str, is_xhtml ) {
-		var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br>' : '';
-		return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+		return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br />$2');
 	};
 		
 	wjEditor = function( iEl, rEl, option ) {
@@ -47,7 +46,8 @@
 			else {
 				// Handle editor( inputEl, options )
 				option = rEl;
-				rEl = iEl;
+				// If no result div is set, make a fake div to store the results on
+				rEl = document.createElement('div');
 			}
 		}
 		else if( rEl === undefined ) {
@@ -73,6 +73,13 @@
 
 		// Return new constructor
 		return new wjEditor.fn.init();
+	};
+
+	// Make some info
+	wjEditor.info = {
+		version : 1.0,
+		beta : false,
+		lastUpdate : '31-12-2011T00:35+1:00'
 	};
 
 	// The editor object
@@ -153,7 +160,7 @@
 							}
 
 
-							elem[tagName] = {
+							elem[tagName.replace(/-/, '')] = {
 								name : tagName,
 
 								input : iCode,
@@ -170,7 +177,7 @@
 							if( iCode === undefined )
 								return false;
 
-							elem[tagName] = {
+							elem[tagName.replace(/-/, '')] = {
 								name : tagName,
 
 								input : iCode,
@@ -209,7 +216,7 @@
 						 }
 						 else
 						 {
-							 $e.result( iElem.value, iCode, rCode );
+							 $e.result( iElem.value.replace(/</, '&lt;').replace(/>/, '&gt;'), iCode, rCode );
 						 }
 					 },
 
