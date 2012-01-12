@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html lang=nl>
+<head>
+	<meta charset=utf-8>
+	<title>Editor by Wouter J</title>
+	<link rel=stylesheet href=css/style.css>
+</head>
+<body>
+	<header>
+		<h1>wjEditor</h1>
+		<h2>A simple editor by Wouter J</h2>
+		<nav>
+			<ul>
+				<li class=roundedBox>
+					<a href="https://github.com/WouterJ/wjEDITOR">Project</a>
+				</li>
+				<li class=roundedBox>
+					<a href="https://github.com/WouterJ/wjEDITOR/wiki">Documentatie</a>
+				</li>
+				<li class=roundedBox>
+					<a href="http://www.phphulp.nl/php/forum/topic/editor/81681/">Topic</a>
+				</li>
+			</ul>
+		</nav>
+	</header>
+	<section id=demo>
+		<div id=left>
+			<h6>Editor</h6>
+			<textarea id=input>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna. In blandit, odio convallis suscipit venenatis, ante ipsum cursus augue.</textarea><br>
+			<section id=panels>
+				<button rel=b class=editorBtn>Bold</button>
+				<button rel=i class=editorBtn>Italic</button>
+				<button rel=u class=editorBtn>Underline</button>
+				<br>
+				<button rel=url class=editorBtn>Url</button>
+				<button rel=img class=editorBtn>Img</button>
+				<button rel="php" class="editorBtn">PHP link</button>
+				<button rel="mysql" class="editorBtn">MySQL link</button>
+				<button rel="jquery" class="editorBtn">jQuery link</button>
+				<br>
+				<button rel="code-html" class="editorBtn">HTML Code</button>
+				<button rel="code-css" class="editorBtn">CSS Code</button>
+				<button rel="code-js" class="editorBtn">JS Code</button>
+				<button rel="code-php" class="editorBtn">PHP Code</button>
+			</section>
+		</div>
+		<div id=right>
+			<h6>Result</h6>
+			<div id=result></div>
+		</div>
+	</section>
+
+	<!-- Load wjEditor 
+	<script src=https://raw.github.com/WouterJ/wjEDITOR/master/editor.js></script>-->
+	<script src=../editor/editor.js></script>
+	<!-- Set up our wjEditor -->
+	<script>
+		var edit = wjEditor(document.getElementById('input'), document.getElementById('result'), {
+			result : true
+		}),
+			btns = document.getElementsByClassName('editorBtn');
+
+		// Basic tags
+		edit.addNormalTag( 'b', 'strong' );
+		edit.addNormalTag( 'i', 'em' );
+		edit.addNormalTag( 'u' );
+		edit.addNormalTag( 'img' );
+
+		// Url tags (with shorthands (!))
+		edit.addSpecialTag( 'url', '[url=?]?[/url]', '<a href="?1">?2</a>' );
+		edit.addSpecialTag( 'php', '[php]?[/php]', '<a href="http://php.net/?">?</a>' );
+		edit.addSpecialTag( 'mysql', '[mysql]?[/mysql]', '<a href="http://dev.mysql.com/?">?</a>' );
+		edit.addSpecialTag( 'jquery', '[jquery]?[/jquery]', '<a href="http://api.jquery.com/?">?</a>' );
+			
+		for( i=-1; btn = btns[++i]; ) {
+			// If click on a button execute trigger function for the correct tag
+			btn.onclick = function() {
+				var rel = this.getAttribute('rel');
+				edit.trigger( rel );
+			};
+		}
+	</script>
+</body>
+</html>
