@@ -46,11 +46,13 @@ body
 /*
  * Header
  */
-header
+header, 
+#header
 {
 	height: 60px;
 }
-header h1
+header h1, header h2,
+#header h1, #header h2
 {
 	font-size: 30pt;
 	color: #333;
@@ -59,13 +61,22 @@ header h1
 	float: left;
 	margin: 10px 5%;
 }
+header h2,
+#header h2
+{
+	font-size: 15pt;
+	color: #555;
+	margin: 35px 0 0 -50px;
+}
 
-header nav
+header nav,
+#header #nav
 {
 	float: right;
 	margin-top: 10px;
 }
-header nav ul li
+header nav ul li,
+#header #nav ul li
 {
 	float: left;
 	padding: 5px 10px;
