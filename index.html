@@ -7,11 +7,15 @@
 </head>
 <body>
 	<header>
-		<h1>A simple editor by Wouter J</h1>
+		<h1>wjEditor</h1>
+		<h2>A simple editor by Wouter J</h2>
 		<nav>
 			<ul>
 				<li class=roundedBox>
-					<a href="#docs">Documentatie</a>
+					<a href="https://github.com/WouterJ/wjEDITOR">Project</a>
+				</li>
+				<li class=roundedBox>
+					<a href="https://github.com/WouterJ/wjEDITOR/wiki">Documentatie</a>
 				</li>
 				<li class=roundedBox>
 					<a href="http://www.phphulp.nl/php/forum/topic/editor/81681/">Topic</a>
@@ -30,6 +34,14 @@
 				<br>
 				<button rel=url class=editorBtn>Url</button>
 				<button rel=img class=editorBtn>Img</button>
+				<button rel="php" class="editorBtn">PHP link</button>
+				<button rel="mysql" class="editorBtn">MySQL link</button>
+				<button rel="jquery" class="editorBtn">jQuery link</button>
+				<br>
+				<button rel="code-html" class="editorBtn">HTML Code</button>
+				<button rel="code-css" class="editorBtn">CSS Code</button>
+				<button rel="code-js" class="editorBtn">JS Code</button>
+				<button rel="code-php" class="editorBtn">PHP Code</button>
 			</section>
 		</div>
 		<div id=right>
@@ -38,81 +50,9 @@
 		</div>
 	</section>
 
-	<section id=docs>
-		<h2>Project opzetten</h2>
-		<p>De code is eigenlijk best simpel. Je moet het editor object eerst aanmaken. Hierbij kun je een paar parameters meegeven:
-		<pre>var myEditor = editor( input_element[, result_element][, options] );</pre>
-		<ul>
-			<li>
-			<h5>input_element</h5>
-			<p>Dit is het element waarin de gebruiker zijn tekst bewerkt</p>
-			</li>
-			<li>
-				<h5>result_element</h5>
-				<p>Het element waarin het resultaat moet komen. Dit is alleen nodig als result op true staat in de options.</p>
-			</li>
-			<li>
-				<h5>options</h5>
-				<p>De opties die je kunt invullen de opties zijn:
-				<ul>
-					<li><h6>startTag</h6> - het teken waarmee standaard tags beginnen, default = [</li>
-					<li><h6>endTag</h6> - het teken waarmee standaard tags eindigen, default = ]</li>
-					<li><h6>result</h6> - het resultaat weergeven in HTML code in het result element, default = false</li>
-				</ul></p>
-			</li>
-		</ul>
-		<pre>var myEditor = editor( input_element, options );</pre>
-		<ul>
-			<li>
-				<h5>input_element</h5>
-				<p>Dit is het element waarin de gebruik zijn tekst bewerkt.</p>
-			</li>
-			<li>
-				<h5>options</h5>
-				<p>De opties. Deze zijn gelijk aan de vorige opties, alleen result is niet mogelijk.</p>
-			</li>
-		</ul>
-		Alle elementen kunnen een string bevatten met het id van het element, of kunnen een HTML node zijn opgehaald door eenvan de DOM functies in JS.
-		</p>
-
-		<h2>Tags toevoegen</h2>
-		<p>De tags toevoegen werkt ook simpel. Enig nadeel is dat je zelf moet uitzoeken wanneer je de functie wilt aanroepen. Je zal dus zelf een onclick event op een button moeten zetten en dan deze functie aanroepen.<br>
-		Er zijn 2 functies: <strong>addNormalTag</strong> en <strong>addSpecialTag</strong>. Een normal tag is gewoon eentje die is opgebouwd uit <code class=roundedBox>[**tagnaam**]**tagvalue**[/**tagnaam**]</code>. Een speciale tag is bijv. <code class=roundedBox>[url=**value**]**value**[/url]</code>.</p>
-		<h3>addNormalTag</h3>
-		<pre>myEditor.addNormalTag( tag_name[, tag_result_name] );</pre>
-		<ul>
-			<li>
-				<h5>tag_name</h5>
-				<p>Dit is de naam van de tag. Bijv. b of strong.</p>
-			</li>
-			<li>
-				<h5>tag_result_name</h5>
-				<p>Dit is de naam die de tag heeft in het result veld. Voor bijv. de bold tag gebruik je in BB code [b] maar in HTML &lt;strong&gt; dit kun je aangeven bij tag_result_name</p>
-			</li>
-		</ul>
-		<p>De tekst die geselecteerd is wordt tussen de 2 tags in gezet.</p>
-
-		<h3>addSpecialTag</h3>
-		<pre>myEditor.addSpecialTag( tag_name, tag_input, tag_result );</pre>
-		<ul>
-			<li>
-				<h5>tag_name</h5>
-				<p>De naam van de tag. Bijv. b of strong.</p>
-			</li>
-			<li>
-				<h5>tag_input</h5>
-				<p>Een string die weergeeft hoe de tag eruit ziet in de editor. De ? wordt vervangen door de geselecteerde tekst. Bijv. [url=?]?[/url] maakt een url tag waarbij de ? 2x wordt vervangen door de geselecteerde tekst.</p>
-			</li>
-			<li>
-				<h5>tag_result</h5>
-				<p>Een string die weergeeft hoe de tag eruit ziet in de result. Dus in HTML. Ook hierin wordt de ? vervangen door de geselecteerde tekst. Bijv. &lt;a href="?"&gt;?&lt;/a&gt; is de HTML versie van de anchor tag.</p>
-			</li>
-		</ul>
-		<p>Met deze functie kun je je eigen tags maken.</p>
-	</section>
-
-	<!-- Load wjEditor -->
-	<script src=https://raw.github.com/WouterJ/wjEDITOR/master/editor.js></script>
+	<!-- Load wjEditor 
+	<script src=https://raw.github.com/WouterJ/wjEDITOR/master/editor.js></script>-->
+	<script src=../editor/editor.js></script>
 	<!-- Set up our wjEditor -->
 	<script>
 		var edit = wjEditor(document.getElementById('input'), document.getElementById('result'), {
@@ -120,13 +60,20 @@
 		}),
 			btns = document.getElementsByClassName('editorBtn');
 
+		// Basic tags
 		edit.addNormalTag( 'b', 'strong' );
-		edit.addNormalTag( 'i' );
+		edit.addNormalTag( 'i', 'em' );
 		edit.addNormalTag( 'u' );
 		edit.addNormalTag( 'img' );
-		edit.addSpecialTag( 'url', '[url=?]?[/url]', '<a href=?>?</a>' );
+
+		// Url tags (with shorthands (!))
+		edit.addSpecialTag( 'url', '[url=?]?[/url]', '<a href="?1">?2</a>' );
+		edit.addSpecialTag( 'php', '[php]?[/php]', '<a href="http://php.net/?">?</a>' );
+		edit.addSpecialTag( 'mysql', '[mysql]?[/mysql]', '<a href="http://dev.mysql.com/?">?</a>' );
+		edit.addSpecialTag( 'jquery', '[jquery]?[/jquery]', '<a href="http://api.jquery.com/?">?</a>' );
 			
 		for( i=-1; btn = btns[++i]; ) {
+			// If click on a button execute trigger function for the correct tag
 			btn.onclick = function() {
 				var rel = this.getAttribute('rel');
 				edit.trigger( rel );
