@@ -1,8 +1,13 @@
-/*
+/*             __________________________________________
+ *            |      |      |______|_     _|      |      |
+ *  __________|   ---|   |  |______  |   | |  |   |  |   |
+ * | | | |__| |   ---|   |  |      | |   | |  |   |    | |
+ * |_____|____|______|______|______| |___| |______|____|_|
+ *
  * @name	: wjEDITOR
  * @author	: Wouter J
- * @version	: 1.0b
- * @license	: Creative Commons Shara Alike - Unported
+ * @version	: 1.0
+ * @license	: Creative Commons Share Alike - Unported
  *			  http://creativecommons.org/licenses/by-sa/3.0/
  */
 
@@ -18,7 +23,9 @@
 		selecting = false,
 		elem = {};
 
-	// Functie om metacharacters in regexen te escapen
+	/*
+	 * Escape metacharacters for RegExp
+	 */
 	escapeMetas = function( str ) {
 		str = str.replace(/\[/g, '\\[');
 		str = str.replace(/\]/g, '\\]');
@@ -29,13 +36,16 @@
 		return str;
 	};
 	/*
-	 * @name	: nl2br
+	 * NL2BR function in JS
 	 * @author	: Kevin van Zonneveld @ http://phpjs.org/functions/nl2br
 	 */
 	nl2br = function( str, is_xhtml ) {
 		return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br />$2');
 	};
 		
+	/*
+	 * The main object
+	 */
 	wjEditor = function( iEl, rEl, option ) {
 
 		if( typeof rEl === 'object' && option === undefined ) {
@@ -208,7 +218,6 @@
 						 if( arguments.length < 3 )
 							 return false;
 
-
 						 iElem.value = iElem.value.substr(0, startPos) + replacedText + iElem.value.substr(endPos);
 
 						 if( rCode === undefined || rCode === null ) {
@@ -225,6 +234,7 @@
 		 * @author	: Wouter J
 		 */
 		result : function( str, fCode, tCode ) {
+					 console.log(arguments);
 					 // Kijken of options.result true is
 					 if( options.result ) {
 						 var tags = [];
@@ -248,8 +258,16 @@
 							var from = escapeMetas(info.input).replace(/\?/g, '(.*?)'),
 								rgx = RegExp(from);
 
-							function getResultCode( h, text ) {
-								return info.result.replace(/\?/g, text);
+							function getResultCode() {
+								var args = arguments;
+								function specialResult() {
+									console.log(args);
+									return args[arguments[1]]
+								}
+								function normalResult() {
+									return String(args[1]) + String(arguments[1]);
+								}
+								return info.result.replace(/\?(\d)/g, specialResult).replace(/\?(\D)/g, normalResult);
 							}
 
 							 if( f === undefined ) {
@@ -260,30 +278,6 @@
 								 rElem.innerHTML = nl2br(rElem.innerHTML.replace(rgx, getResultCode));
 							 }
 						 }
-
-						 /*
-						 if( fCode === undefined ) {
-							 // Handle result( str )
-							 // Maak regexen om de eigen starttag om te zetten in html start tag
-							 // en idem voor eindtags
-							 var rgx1 = new RegExp('\\' + options.startTag, 'g'),
-								 rgx2 = new RegExp('\\' + options.endTag, 'g');
-							 // Zet de code in de result element
-							 fakeDiv.innerHTML = rElem.innerHTML = nl2br(str.replace(rgx1, '<').replace(rgx2, '>'));
-						 }
-						 else
-						 {
-							 // Handle result( str, from, to )
-							 var from = escapeMetas(fCode).replace(/\?/g, '(.*?)'),
-								 rgx1 = new RegExp( from, 'g');
-
-							 function getResultCode( iets, txt ) {
-								 // txt bevat per replace de tekst
-								 return tCode.replace(/\?/g, txt);
-							 }
-							 fakeDiv.innerHTML = rElem.innerHTML = nl2br(str.replace(rgx1, getResultCode));
-						 }
-						 */
 					 }
 				 }
 	};
