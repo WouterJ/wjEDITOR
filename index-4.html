@@ -1,39 +1,40 @@
-<!DOCTYPE HTML>
-<html lang=nl>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+					  "http://www.w3.org/TR/html4/strict.dtd>
+<html lang="nl">
 <head>
-	<meta charset=utf-8>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Editor by Wouter J</title>
-	<link rel=stylesheet href=css/style.css>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-	<header>
+	<div id="header">
 		<h1>wjEditor</h1>
 		<h2>A simple editor by Wouter J</h2>
-		<nav>
+		<div id="nav">
 			<ul>
-				<li class=roundedBox>
+				<li class="roundedBox">
 					<a href="https://github.com/WouterJ/wjEDITOR">Project</a>
 				</li>
-				<li class=roundedBox>
+				<li class="roundedBox">
 					<a href="https://github.com/WouterJ/wjEDITOR/wiki">Documentatie</a>
 				</li>
-				<li class=roundedBox>
+				<li class="roundedBox">
 					<a href="http://www.phphulp.nl/php/forum/topic/editor/81681/">Topic</a>
 				</li>
 			</ul>
-		</nav>
-	</header>
-	<section id=demo>
-		<div id=left>
+		</div> <!-- End of #nav -->
+	</div> <!-- End of #header -->
+	<div id="demo">
+		<div id="left">
 			<h6>Editor</h6>
-			<textarea id=input>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna. In blandit, odio convallis suscipit venenatis, ante ipsum cursus augue.</textarea><br>
-			<section id=panels>
-				<button rel=b class=editorBtn>Bold</button>
-				<button rel=i class=editorBtn>Italic</button>
-				<button rel=u class=editorBtn>Underline</button>
+			<textarea id="input">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna. In blandit, odio convallis suscipit venenatis, ante ipsum cursus augue.</textarea><br>
+			<div id="panels">
+				<button rel="b" class="editorBtn">Bold</button>
+				<button rel="i" class="editorBtn">Italic</button>
+				<button rel="u" class="editorBtn">Underline</button>
 				<br>
-				<button rel=url class=editorBtn>Url</button>
-				<button rel=img class=editorBtn>Img</button>
+				<button rel="url" class="editorBtn">Url</button>
+				<button rel="img" class="editorBtn">Img</button>
 				<button rel="php" class="editorBtn">PHP link</button>
 				<button rel="mysql" class="editorBtn">MySQL link</button>
 				<button rel="jquery" class="editorBtn">jQuery link</button>
@@ -42,18 +43,19 @@
 				<button rel="code-css" class="editorBtn">CSS Code</button>
 				<button rel="code-js" class="editorBtn">JS Code</button>
 				<button rel="code-php" class="editorBtn">PHP Code</button>
-			</section>
+			</div> <!-- End of #panels -->
 		</div>
-		<div id=right>
+		<div id="right">
 			<h6>Result</h6>
-			<div id=result></div>
-		</div>
-	</section>
+			<div id="result"></div>
+		</div> <!-- end of #right -->
+	</div> <!-- end of #demo -->
 
-	<!-- Load wjEditor -->
-	<script src=https://raw.github.com/WouterJ/wjEDITOR/master/editor.js></script>
+	<!-- Load wjEditor 
+	<script src=https://raw.github.com/WouterJ/wjEDITOR/master/editor.js></script>-->
+	<script type="text/javascript" src="../editor/editor.js"></script>
 	<!-- Set up our wjEditor -->
-	<script>
+	<script type="text/javascript">
 		var edit = wjEditor(document.getElementById('input'), document.getElementById('result'), {
 			result : true
 		}),
