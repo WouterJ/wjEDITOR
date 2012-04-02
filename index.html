@@ -32,6 +32,9 @@
 				<button rel=i class=editorBtn>Italic</button>
 				<button rel=u class=editorBtn>Underline</button>
 				<br>
+				<button rel=list class=editorBtn>Lijst</button>
+				<button rel=li class=editorBtn>Lijst item</button>
+				<br>
 				<button rel=url class=editorBtn>Url</button>
 				<button rel=img class=editorBtn>Img</button>
 				<button rel="php" class="editorBtn">PHP link</button>
@@ -51,8 +54,7 @@
 	</section>
 
 	<!-- Load wjEditor -->
-	<script src=js/editor.min.js></script>
-	<script src=../editor/editor.js></script>
+	<script src=js/editor.js></script>
 	<!-- Set up our wjEditor -->
 	<script>
 		var edit = wjEditor(document.getElementById('input'), document.getElementById('result'), {
@@ -65,6 +67,10 @@
 		edit.addNormalTag( 'i', 'em' );
 		edit.addNormalTag( 'u' );
 		edit.addNormalTag( 'img' );
+
+		// lijsten
+		edit.addNormalTag( 'list', 'ul' );
+		edit.addNormalTag( 'li' );
 
 		// Url tags (with shorthands (!))
 		edit.addSpecialTag( 'url', '[url=?]?[/url]', '<a href="?1">?2</a>' );
