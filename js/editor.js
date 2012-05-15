@@ -3,10 +3,11 @@
  *  __________|   ---|   |  |______  |   | |  |   |  |   |
  * | | | |__| |   ---|   |  |      | |   | |  |   |    | |
  * |_____|____|______|______|______| |___| |______|____|_|
- *
+ */
+/*!
  * @name	: wjEDITOR
  * @author	: Wouter J
- * @version	: 1.1b
+ * @version	: 1.2b
  * @license	: Creative Commons Share Alike - Unported
  *			  http://creativecommons.org/licenses/by-sa/3.0/
  */
