@@ -137,7 +137,7 @@
 				   // Make a second select event (selecting with Shift + arrows)
 				   iElem.onkeyup = function( e ) {
 					   // Als shift is ingedrukt
-					   if( e.keyCode == 16 ) {
+					   if( (e && e.keyCode == 16) || (window.event.keyCode && window.event.keyCode == 16) ) {
 						   txt = $e.getSelection(this);
 					   }
 
